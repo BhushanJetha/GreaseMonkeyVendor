@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.greasemonkey.vendor.servicing_request.PartChnageRequestActivity">
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar"/>
+
+    <android.support.v7.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/card_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"
+        card_view:cardBackgroundColor="@color/whiteText"
+        card_view:cardCornerRadius="4dp">
+
+        <LinearLayout
+            android:id="@+id/llOtherCharges"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:text="Bike Part Name "
+                android:layout_marginLeft="10dp"
+                android:textSize="15sp"
+                android:textColor="#000"/>
+
+            <EditText
+                android:id="@+id/etBikePartName"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text=""
+                android:hint="Enter Part Name"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:textSize="15sp"
+                android:textColor="#000"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:text="Bike Part Charges "
+                android:layout_gravity="center"
+                android:textSize="15sp"
+                android:textColor="#000"/>
+
+            <EditText
+                android:id="@+id/etBikePartCharges"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="left"
+                android:text=""
+                android:hint="Enter Amount"
+                android:inputType="number"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:textSize="15sp"
+                android:textColor="#000"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:text="Select labour charges "
+                android:layout_gravity="center"
+                android:textSize="15sp"
+                android:textColor="#000"/>
+
+            <Spinner
+                android:id="@+id/spinnerLabourCharges"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"/>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnSendRequest"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/whiteText"
+            android:layout_gravity="center"
+            android:background="#45992b"
+            android:text="Send Request"/>
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>

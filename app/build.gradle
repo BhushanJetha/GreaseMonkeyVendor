@@ -1,0 +1,67 @@
+import com.google.gms.googleservices.GoogleServicesPlugin
+
+apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
+
+android {
+    compileSdkVersion 28
+    defaultConfig {
+        applicationId "com.greasemonkey.vendor"
+        minSdkVersion 23
+        targetSdkVersion 28
+        versionCode 10
+        versionName "2.0"
+        multiDexEnabled true
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            shrinkResources true
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    repositories {
+        mavenCentral()
+    }
+
+    packagingOptions {
+        exclude 'META-INF/**.version'
+        exclude 'META-INF/**.pro'
+    }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    //noinspection GradleCompatible
+    implementation 'com.android.support:appcompat-v7:28.0.0'
+    implementation 'com.android.support:recyclerview-v7:28.0.0'
+    implementation 'com.android.support:cardview-v7:28.0.0'
+    implementation 'com.android.support:design:28.0.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
+
+    testImplementation 'junit:junit:4.12'
+    //androidTestImplementation 'com.android.support.test:runner:1.0.3'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+
+    implementation 'com.mcxiaoke.volley:library:1.0.17'
+
+    implementation 'com.android.support:multidex:1.0.3'
+
+    implementation 'com.facebook.android:facebook-android-sdk:4.31.0'
+
+    implementation 'com.google.android.gms:play-services:11.2.0'
+    implementation 'com.google.android.gms:play-services-maps:11.0.4'
+    implementation 'com.google.android.gms:play-services-location:11.0.4'
+
+    //implementation 'com.google.android.gms:play-services-auth:11.4.0' //this is for google login
+
+    // implementation 'com.google.firebase:firebase-messaging:20.1.0'
+
+    //implementation 'com.google.firebase:firebase-analytics:11.0.4'
+    implementation 'com.google.firebase:firebase-messaging:11.0.4'
+}
+// Work around for onesignal-gradle-plugin compatibility
+GoogleServicesPlugin.config.disableVersionCheck = true

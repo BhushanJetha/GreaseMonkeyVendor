@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/bg"
+    tools:context="com.greasemonkey.vendor.mobileVerification.OTPVerificationActivity">
+
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:src="@drawable/grease_monkey_logo"
+        android:layout_marginTop="30dp"
+        android:layout_gravity="center"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Verify Mobile Number"
+        android:textSize="20sp"
+        android:layout_marginTop="40dp"
+        android:textColor="#000"
+        android:layout_gravity="center"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Please enter four digit OTP number"
+        android:textColor="@color/colorPrimaryText"
+        android:textStyle="bold"
+        android:layout_gravity="center"/>
+
+    <EditText
+        android:id="@+id/etOTP"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="30dp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:hint="Enter OTP"
+        android:maxLength="4"
+        android:inputType="number"
+        android:maxLines="1"/>
+
+
+    <Button
+        android:id="@+id/btnVerify"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:text="Verify"
+        android:background="@drawable/roundedbutton"
+        android:textColor="@color/whiteText"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"/>
+
+
+    <TextView
+        android:id="@+id/tvResendOTP"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Resend OTP?"
+        android:textColor="@color/colorPrimaryText"
+        android:textSize="15sp"
+        android:layout_gravity="center"/>
+</LinearLayout>

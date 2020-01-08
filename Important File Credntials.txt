@@ -1,0 +1,5 @@
+SHA: 9A:EA:D0:1C:AB:CD:A8:2B:EC:5E:86:36:44:D7:C8:0F:D2:34:EE:4D
+
+
+Client Id: 290656764678-qdhaeq9b2l664l404gd7am712pvv2k4f.apps.googleusercontent.com
+Client Secret: BgftnYZ3Q1pveLxWx_ahlRCo

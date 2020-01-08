@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg"
+    android:orientation="vertical"
+    tools:context="com.greasemonkey.vendor.vendor_detail.BankDetailActivity">
+
+    <ImageView
+        android:layout_width="250dp"
+        android:layout_height="@dimen/logo_height"
+        android:src="@drawable/grease_monkey_logo"
+        android:layout_marginTop="20dp"
+        android:paddingLeft="-50dp"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Bank Detail"
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:textColor="#000"
+                android:layout_marginLeft="20dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Bank Name"
+                android:textColor="#000"
+                android:textSize="15sp"
+                android:layout_marginLeft="20sp"
+                android:layout_marginTop="10dp"/>
+
+            <EditText
+                android:id="@+id/etBankName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter Bank Name"
+                android:layout_marginLeft="20sp"
+                android:layout_marginRight="20dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="IFSC Code"
+                android:textColor="#000"
+                android:textSize="15sp"
+                android:layout_marginLeft="20sp"
+                android:layout_marginTop="10dp"/>
+
+            <EditText
+                android:id="@+id/etIfscCode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter IFSC Code"
+                android:layout_marginLeft="20sp"
+                android:layout_marginRight="20dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Branch Name"
+                android:textColor="#000"
+                android:textSize="15sp"
+                android:layout_marginLeft="20sp"
+                android:layout_marginTop="10dp"/>
+
+            <EditText
+                android:id="@+id/etBranchName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter Branch Name"
+                android:layout_marginLeft="20sp"
+                android:layout_marginRight="20dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Account Number"
+                android:textColor="#000"
+                android:textSize="15sp"
+                android:layout_marginLeft="20sp"
+                android:layout_marginTop="10dp"/>
+
+            <EditText
+                android:id="@+id/etAccountNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter Account Number"
+                android:inputType="number"
+                android:layout_marginLeft="20sp"
+                android:layout_marginRight="20dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Confirm Account Number"
+                android:textColor="#000"
+                android:textSize="15sp"
+                android:layout_marginLeft="20sp"
+                android:layout_marginTop="10dp"/>
+
+            <EditText
+                android:id="@+id/etConfirmAccountNumber"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter Confirm Account Number"
+                android:inputType="number"
+                android:layout_marginLeft="20sp"
+                android:layout_marginRight="20dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Beneficiary name"
+                android:textColor="#000"
+                android:textSize="15sp"
+                android:inputType="number"
+                android:layout_marginLeft="20sp"
+                android:layout_marginTop="10dp"/>
+
+            <EditText
+                android:id="@+id/etBenficiaryName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Enter Beneficiary Name"
+                android:layout_marginLeft="20sp"
+                android:layout_marginRight="20dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp">
+
+                <Button
+                    android:id="@+id/btnNext"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="Next"
+                    android:layout_gravity="center"
+                    android:textColor="@color/whiteText"
+                    android:background="@drawable/roundedbutton"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="10dp"/>
+
+                <Button
+                    android:id="@+id/btnSkip"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="SKIP"
+                    android:layout_gravity="center"
+                    android:textColor="@color/whiteText"
+                    android:background="@drawable/roundedbutton"
+                    android:layout_marginTop="10dp"/>
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
