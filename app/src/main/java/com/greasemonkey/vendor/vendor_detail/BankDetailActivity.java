@@ -1,23 +1,22 @@
 package com.greasemonkey.vendor.vendor_detail;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import com.greasemonkey.vendor.R;
 import com.greasemonkey.vendor.common.Constant;
 import com.greasemonkey.vendor.comunication.CommunicationChanel;
 import com.greasemonkey.vendor.comunication.IResponse;
-import com.greasemonkey.vendor.registration.RegistrationActivity;
 import com.greasemonkey.vendor.utility.UserPrefManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 public class BankDetailActivity extends AppCompatActivity implements IResponse {
 

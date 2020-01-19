@@ -1,26 +1,18 @@
 package com.greasemonkey.vendor.servicing_request;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.Toast;
-
 import com.greasemonkey.vendor.BaseActivity;
-import com.greasemonkey.vendor.DashobardActivity;
 import com.greasemonkey.vendor.R;
 import com.greasemonkey.vendor.common.Constant;
 import com.greasemonkey.vendor.comunication.CommunicationChanel;
 import com.greasemonkey.vendor.comunication.IResponse;
-import com.greasemonkey.vendor.utility.UserPrefManager;
-import com.greasemonkey.vendor.vendor_detail.BikeListActivity;
-import com.greasemonkey.vendor.vendor_detail.model.ManufactureModel;
 
 import org.json.JSONArray;
 import org.json.JSONException;

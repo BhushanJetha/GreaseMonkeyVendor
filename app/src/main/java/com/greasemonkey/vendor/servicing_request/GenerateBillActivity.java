@@ -2,18 +2,11 @@ package com.greasemonkey.vendor.servicing_request;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.google.android.gms.maps.model.Dash;
 import com.greasemonkey.vendor.BaseActivity;
 import com.greasemonkey.vendor.DashobardActivity;
 import com.greasemonkey.vendor.R;
@@ -26,6 +19,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+
+import androidx.cardview.widget.CardView;
 
 
 public class GenerateBillActivity extends BaseActivity implements IResponse{

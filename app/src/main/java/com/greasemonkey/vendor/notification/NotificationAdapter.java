@@ -1,6 +1,5 @@
 package com.greasemonkey.vendor.notification;
 
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +8,8 @@ import android.widget.TextView;
 import com.greasemonkey.vendor.R;
 
 import java.util.List;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 
 /**
@@ -34,9 +35,9 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     public void onBindViewHolder(NotificationAdapter.MenuItemViewHolder meuItemViewHolder, int i) {
 
         try{
-            meuItemViewHolder.tvUserName.setText(notificationList.get(i).getServiceType());
-            meuItemViewHolder.tvServiceType.setText("Total Amount: Rs. "+notificationList.get(i).getServiceType());
-            meuItemViewHolder.tvAMCType.setText(notificationList.get(i).getAmcType());
+           // meuItemViewHolder.tvEstimateAmount.setText(notificationList.get(i).getServiceType());
+            meuItemViewHolder.tvServiceType.setText("Rs. "+notificationList.get(i).getServiceType());
+            meuItemViewHolder.tvStatus.setText(notificationList.get(i).getOrderStatus());
             meuItemViewHolder.tvDate.setText(notificationList.get(i).getOrderDate());
         }catch (Exception e){
             e.printStackTrace();
@@ -81,15 +82,14 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     public class MenuItemViewHolder extends RecyclerView.ViewHolder implements
             View.OnClickListener {
 
-        public TextView tvUserName,tvServiceType,tvAMCType,tvDate,tvStatus;
+        public TextView tvEstimateAmount,tvServiceType,tvDate,tvStatus;
 
         public MenuItemViewHolder(View view) {
             super(view);
-            tvUserName = (TextView) view.findViewById(R.id.userName);
+            tvEstimateAmount = (TextView) view.findViewById(R.id.tvEstimateAmount);
             tvServiceType = (TextView) view.findViewById(R.id.serviceType);
-            tvAMCType = (TextView) view.findViewById(R.id.amcType);
             tvDate = (TextView) view.findViewById(R.id.requestDate);
-            tvStatus = (TextView) view.findViewById(R.id.requestStatus);
+            tvStatus = (TextView) view.findViewById(R.id.orderStatus);
         }
 
         @Override

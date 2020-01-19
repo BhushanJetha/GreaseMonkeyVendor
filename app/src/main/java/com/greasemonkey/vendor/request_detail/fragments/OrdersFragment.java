@@ -3,9 +3,6 @@ package com.greasemonkey.vendor.request_detail.fragments;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,6 +34,10 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 
 public class OrdersFragment extends Fragment {
@@ -113,7 +114,7 @@ public class OrdersFragment extends Fragment {
                                         String orderTime = jsonObject1.getString("orderTime");
                                         String userName = jsonObject1.getString("userName");
 
-                                        notifications.add(new NotificationModel(orderId,userId,serviceType,pickupAndDrop,"-",orderDate,orderTime,userName));
+                                        //notifications.add(new NotificationModel(orderId,userId,serviceType,pickupAndDrop,"-",orderDate,orderTime,userName));
                                     }
 
                                     if(notifications.size()>0){

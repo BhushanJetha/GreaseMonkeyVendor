@@ -8,8 +8,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.StrictMode;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.FileProvider;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,7 +26,9 @@ import com.greasemonkey.vendor.garage_detail.MyProvidedManufacturerActivity;
 import com.greasemonkey.vendor.garage_detail.MyServicesActivity;
 import com.greasemonkey.vendor.garage_detail.VendorAddressDetailActivity;
 import com.greasemonkey.vendor.garage_detail.ViewMyBankDetailActivity;
+import com.greasemonkey.vendor.login.LoginActivity;
 import com.greasemonkey.vendor.request_detail.RequestDetailActivity;
+import com.greasemonkey.vendor.utility.UserPrefManager;
 import com.greasemonkey.vendor.vendor_detail.BankDetailActivity;
 
 import java.io.File;
@@ -37,11 +37,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import androidx.fragment.app.Fragment;
+
 
 public class ProfileFragment extends Fragment {
 
     private LinearLayout llGarageDetail, llAddressDetail, llBankDetail, llMyServices,
-            llmyBikes, llLabourCharges, llReferAndEarn, llContactUs;
+            llmyBikes, llLabourCharges, llReferAndEarn, llContactUs, llLogout;
+
+    private UserPrefManager userPrefManager;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -62,6 +66,9 @@ public class ProfileFragment extends Fragment {
 
         llReferAndEarn = view.findViewById(R.id.llReferAndEarn);
         llContactUs = view.findViewById(R.id.llContactUs);
+        llLogout = view.findViewById(R.id.llLogout);
+
+        userPrefManager= new UserPrefManager(this.getActivity());
 
         onClick();
 
@@ -163,6 +170,15 @@ public class ProfileFragment extends Fragment {
                 startActivity(i);
             }
         });
+
+        llLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                userPrefManager.setLoginStatus("LoginSuccess");
+                Intent i=new Intent(getContext(), LoginActivity.class);
+                startActivity(i);
+            }
+        });
     }
 
     private void CopyAssetsBrochure() {
@@ -215,7 +231,22 @@ public class ProfileFragment extends Fragment {
 
         InputStream in = null;
         OutputStream out = null;
-        File file = new File(getActivity().getFilesDir(), "labour_charges.pdf");
+        File file = new File(getActivity().getFilesDir(), "assets/labour_charges.pdf");
+       // File file = new File("android.resource://" + getActivity().getPackageName() + "/" + R.raw.labour_charges);
+
+        Log.d("File PAth-->",file.getAbsolutePath());
+
+        int checkExistence = getActivity().getResources().getIdentifier("labour_charges", "raw", getActivity().getPackageName());
+
+        if ( checkExistence != 0 ) {  // the resouce exists...
+            Log.d("File status-->","Exist");
+
+        }
+        else {  // checkExistence == 0  // the resouce does NOT exist!!
+            Log.d("File status-->","Not Exist");
+
+        }
+
         try
         {
             in = assetManager.open("labour_charges.pdf");
@@ -232,12 +263,18 @@ public class ProfileFragment extends Fragment {
             Log.e("tag", e.getMessage());
         }
 
+        Uri path = Uri.fromFile(file);
         Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setDataAndType(
-                Uri.parse("file://" + getActivity().getFilesDir() + "/labour_charges.pdf"),
-                "application/pdf");
-
+        intent.setDataAndType( path,"application/pdf");
+        intent.setFlags(Intent. FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
+
+        /*if (file.exists()){
+
+        } else {
+            Toast.makeText(getActivity(), "The file not exists! ", Toast.LENGTH_SHORT).show();
+        }*/
+
     }
 
 

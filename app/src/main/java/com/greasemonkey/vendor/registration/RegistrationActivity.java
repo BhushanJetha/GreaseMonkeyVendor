@@ -3,7 +3,6 @@ package com.greasemonkey.vendor.registration;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +24,8 @@ import com.greasemonkey.vendor.vendor_detail.VendorLocationActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import androidx.appcompat.app.AlertDialog;
 
 
 public class RegistrationActivity extends BaseActivity implements IResponse {

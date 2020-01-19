@@ -5,17 +5,15 @@ package com.greasemonkey.vendor.notification;
  */
 
 public class NotificationModel {
-    private String orderId,userId,serviceType,pickupAndDrop, amcType, orderDate,orderTime, userName;
+    private String orderId,userId,serviceType, orderDate, estimateAmount, orderStatus;
 
-    public NotificationModel(String orderId, String userId, String serviceType, String pickupAndDrop, String amcType, String orderDate, String orderTime, String userName) {
+    public NotificationModel(String orderId, String userId, String serviceType, String orderDate, String estimateAmount, String orderStatus) {
         this.orderId = orderId;
         this.userId = userId;
         this.serviceType = serviceType;
-        this.pickupAndDrop = pickupAndDrop;
-        this.amcType = amcType;
         this.orderDate = orderDate;
-        this.orderTime = orderTime;
-        this.userName = userName;
+        this.estimateAmount = estimateAmount;
+        this.orderStatus = orderStatus;
     }
 
     public String getOrderId() {
@@ -42,22 +40,6 @@ public class NotificationModel {
         this.serviceType = serviceType;
     }
 
-    public String getPickupAndDrop() {
-        return pickupAndDrop;
-    }
-
-    public void setPickupAndDrop(String pickupAndDrop) {
-        this.pickupAndDrop = pickupAndDrop;
-    }
-
-    public String getAmcType() {
-        return amcType;
-    }
-
-    public void setAmcType(String amcType) {
-        this.amcType = amcType;
-    }
-
     public String getOrderDate() {
         return orderDate;
     }
@@ -66,19 +48,19 @@ public class NotificationModel {
         this.orderDate = orderDate;
     }
 
-    public String getOrderTime() {
-        return orderTime;
+    public String getEstimateAmount() {
+        return estimateAmount;
     }
 
-    public void setOrderTime(String orderTime) {
-        this.orderTime = orderTime;
+    public void setEstimateAmount(String estimateAmount) {
+        this.estimateAmount = estimateAmount;
     }
 
-    public String getUserName() {
-        return userName;
+    public String getOrderStatus() {
+        return orderStatus;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setOrderStatus(String orderStatus) {
+        this.orderStatus = orderStatus;
     }
 }

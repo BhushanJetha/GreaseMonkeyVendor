@@ -2,18 +2,19 @@ package com.greasemonkey.vendor.servicing_request;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
+import android.text.method.LinkMovementMethod;
+import android.text.util.Linkify;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -42,12 +43,19 @@ import com.greasemonkey.vendor.R;
 import com.greasemonkey.vendor.common.Constant;
 import com.greasemonkey.vendor.comunication.CommunicationChanel;
 import com.greasemonkey.vendor.comunication.IResponse;
+import com.greasemonkey.vendor.login.LoginActivity;
 import com.greasemonkey.vendor.utility.ConvertAddressToLatLong;
 import com.greasemonkey.vendor.utility.UserPrefManager;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 public class RequestStatusActivity extends BaseActivity implements IResponse, OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
@@ -56,16 +64,17 @@ public class RequestStatusActivity extends BaseActivity implements IResponse, On
 
     private Button btnSubmit, btnSendRequest, btnAddress;
     private TextView tvUserName, tvMobileNumber, tvManufacturer, tvModel, tvServivceType, tvAMC, tvPickupDrop,
-            tvPickUpDateTime, tvAddress, tvComment,tvOrderId, tvRegistrationNumber,
-            tvEstemateDeliveryDate, tvEstimateDeliveryTime;
+            tvPickUpDateTime, tvAddress, tvComment, tvOrderId, tvRegistrationNumber, tvOrderStatus,
+            tvEstemateDeliveryDate, tvEstimateDeliveryTime, tvGMSupport;
 
     private Spinner OrderSpinner;
-    private String orderId = "", strOrderStatus = "", strEstimateBill, strUserId="", strGMOrderId = "";
+    private String orderId = "", strOrderStatus = "", strEstimateBill, strUserId = "", strGMOrderId = "";
     private LinearLayout llOrderStatus;
     private ScrollView mScrollView;
 
     //Google Map
     private static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
+    private static final int MY_PERMISSIONS_REQUEST_call = 22;
     private GoogleApiClient mGoogleApiClient;
     private Location mLastLocation;
     private Marker mCurrLocationMarker, mUserLocationMarker;
@@ -86,24 +95,15 @@ public class RequestStatusActivity extends BaseActivity implements IResponse, On
         init();
         onClick();
         getOrderDetail();
+        checkCallingPermission();
     }
 
-    private void init(){
-        userPrefManager= new UserPrefManager(this);
+    private void init() {
+        userPrefManager = new UserPrefManager(this);
 
         orderId = getIntent().getStringExtra("OrderId");
         strUserId = getIntent().getStringExtra("UserId");
         strGMOrderId = getIntent().getStringExtra("GMOrderId");
-
-      /*  if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            checkLocationPermission();
-        }
-
-        final MapFragment mapFragment = (MapFragment)
-                getFragmentManager()
-                        .findFragmentById(R.id.map);
-
-      //  mapFragment.getMapAsync(this);*/
 
         mScrollView = findViewById(R.id.svServiceDetail);
         btnSubmit = findViewById(R.id.btnSubmit);
@@ -124,12 +124,43 @@ public class RequestStatusActivity extends BaseActivity implements IResponse, On
         tvEstimateDeliveryTime = findViewById(R.id.tvEstimateTime);
         OrderSpinner = findViewById(R.id.orderStatus);
         btnAddress = findViewById(R.id.btnAddress);
+        tvOrderStatus = findViewById(R.id.tvOrderStatus);
 
         llOrderStatus = findViewById(R.id.llOrderStatus);
+        tvGMSupport = findViewById(R.id.tvGMSupport);
+
+        if (tvMobileNumber != null) {
+            Linkify.addLinks(tvMobileNumber, Patterns.PHONE, "tel:", Linkify.sPhoneNumberMatchFilter, Linkify.sPhoneNumberTransformFilter);
+            tvMobileNumber.setMovementMethod(LinkMovementMethod.getInstance());
+        }
 
     }
 
-    private void onClick(){
+    private void onClick() {
+
+        tvMobileNumber.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent callIntent = new Intent(Intent.ACTION_CALL);
+                callIntent.setData(Uri.parse("tel:" + tvMobileNumber.getText().toString()));
+                if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                    return;
+                }
+                startActivity(callIntent);
+            }
+        });
+
+        tvGMSupport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent callIntent = new Intent(Intent.ACTION_CALL);
+                callIntent.setData(Uri.parse("tel:" + tvGMSupport.getText().toString()));
+                if (ActivityCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                    return;
+                }
+                startActivity(callIntent);
+            }
+        });
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -144,7 +175,10 @@ public class RequestStatusActivity extends BaseActivity implements IResponse, On
                     startActivity(i);
                 }else {
                     String orderStatus = OrderSpinner.getSelectedItem().toString();
-                    sendOrderStatus(orderStatus);
+
+                    if(!orderStatus.equals("Select")){
+                        sendOrderStatus(orderStatus);
+                    }
                 }
             }
         });
@@ -170,6 +204,41 @@ public class RequestStatusActivity extends BaseActivity implements IResponse, On
                 startActivity(i);
             }
         });
+    }
+
+    public boolean checkCallingPermission() {
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.CALL_PHONE)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.CALL_PHONE)) {
+
+                new AlertDialog.Builder(this)
+                        .setTitle("Calling Permission")
+                        .setMessage("Grease monkey wants to access your current location.")
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                //Prompt the user once explanation has been shown
+                                ActivityCompat.requestPermissions(RequestStatusActivity.this,
+                                        new String[]{Manifest.permission.CALL_PHONE},
+                                        MY_PERMISSIONS_REQUEST_call);
+                            }
+                        })
+                        .create()
+                        .show();
+            } else {
+                // No explanation needed, we can request the permission.
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.CALL_PHONE},
+                        MY_PERMISSIONS_REQUEST_call);
+            }
+            return false;
+        } else {
+            return true;
+        }
     }
 
     private void getOrderDetail() {
@@ -231,6 +300,8 @@ public class RequestStatusActivity extends BaseActivity implements IResponse, On
                 strOrderStatus = object.getString("orderStatus");
                 String orderDate = object.getString("orderDate");
                 String orderTime = object.getString("orderTime");
+
+                tvOrderStatus.setText(strOrderStatus);
 
                 Log.d("Service Detail -->", serviceDetail);
 
@@ -503,6 +574,21 @@ public class RequestStatusActivity extends BaseActivity implements IResponse, On
                 } else {
                     Toast.makeText(this, "permission denied",
                             Toast.LENGTH_LONG).show();
+                }
+                return;
+            }
+
+            case MY_PERMISSIONS_REQUEST_call: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    // permission was granted, yay! Do the
+                    // location-related task you need to do.
+                    if (ContextCompat.checkSelfPermission(this,
+                            Manifest.permission.CALL_PHONE)
+                            == PackageManager.PERMISSION_GRANTED) {
+                    }
                 }
                 return;
             }

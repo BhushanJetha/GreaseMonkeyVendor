@@ -2,7 +2,6 @@ package com.greasemonkey.vendor.vendor_detail;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.View;
@@ -25,6 +24,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+
+import androidx.appcompat.widget.Toolbar;
 
 
 public class BikeListActivity extends BaseActivity implements View.OnClickListener, IResponse {

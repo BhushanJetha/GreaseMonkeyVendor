@@ -54,17 +54,13 @@
     </string-array>-->
 
     <string-array name="request_status">
+        <item>Select</item>
         <item>Pending Pick up</item>
         <item>Ready for Pickup</item>
         <item>Bike Picked</item>
         <item>Work in Progress</item>
         <item>Completed</item>
-        <item>Payment Pending</item>
-        <item>Payment Done</item>
         <item>Pending Drop</item>
-        <item>Part Change Requested</item>
-        <item>Parts Change Approved</item>
-        <item>Parts Change Declined</item>
         <item>Delivered</item>
     </string-array>
 

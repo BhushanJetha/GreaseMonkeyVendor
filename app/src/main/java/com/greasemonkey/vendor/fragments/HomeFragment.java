@@ -3,10 +3,6 @@ package com.greasemonkey.vendor.fragments;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SwitchCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,6 +36,11 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import androidx.appcompat.widget.SwitchCompat;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class HomeFragment extends Fragment {
 
@@ -124,9 +125,11 @@ public class HomeFragment extends Fragment {
                 if (isChecked) {
                     llTomorowsStatus.setVisibility(View.GONE);
                     setShopOnlineStatus(Constant.setShopOnlineStatus, "active");
+                    userPrefManager.setOnlineStatus("active");
                 } else {
                     llTomorowsStatus.setVisibility(View.VISIBLE);
                     setShopOnlineStatus(Constant.setShopOnlineStatus,"deactive");
+                    userPrefManager.setOnlineStatus("deactive");
                 }
             }
         });
@@ -135,8 +138,10 @@ public class HomeFragment extends Fragment {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     setShopOnlineStatus(Constant.setPickUpDropStatus, "yes");
+                    userPrefManager.setPickupDropStatus("yes");
                 } else {
                     setShopOnlineStatus(Constant.setPickUpDropStatus, "no");
+                    userPrefManager.setPickupDropStatus("no");
                 }
             }
         });
@@ -145,8 +150,10 @@ public class HomeFragment extends Fragment {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     setShopOnlineStatus(Constant.setShopTommarowsStatus, "yes");
+                    userPrefManager.setTommarowStatus("yes");
                 } else {
                     setShopOnlineStatus(Constant.setShopTommarowsStatus, "no");
+                    userPrefManager.setTommarowStatus("no");
                 }
             }
         });
