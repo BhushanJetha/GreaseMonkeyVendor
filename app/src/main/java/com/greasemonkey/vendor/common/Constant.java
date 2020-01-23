@@ -7,8 +7,8 @@ public class Constant {
     public static final int GET=0;
     public static final int POST=1;
 
-    //public static final String strHost="http://157.245.99.66:9000/";
-    public static final String strHost="http://157.245.99.66:9001/";
+    public static final String strHost="http://157.245.99.66:9000/";
+    //public static final String strHost="http://157.245.99.66:9001/";
 
     public static final String loginAPI=strHost+"api/vendorLogin";
 
