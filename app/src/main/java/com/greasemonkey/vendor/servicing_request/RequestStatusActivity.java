@@ -68,7 +68,7 @@ public class RequestStatusActivity extends BaseActivity implements IResponse, On
             tvEstemateDeliveryDate, tvEstimateDeliveryTime, tvGMSupport;
 
     private Spinner OrderSpinner;
-    private String orderId = "", strOrderStatus = "", strEstimateBill, strUserId = "", strGMOrderId = "";
+    private String orderId = "", strOrderStatus = "", strEstimateBill, strUserId = "", strGMOrderId = "", strEngineCC;
     private LinearLayout llOrderStatus;
     private ScrollView mScrollView;
 
@@ -191,6 +191,7 @@ public class RequestStatusActivity extends BaseActivity implements IResponse, On
                 i.putExtra("OrderId",orderId);
                 i.putExtra("UserId",strUserId);
                 i.putExtra("GmOrderId",strUserId);
+                i.putExtra("EngigneCC", strEngineCC);
                 startActivity(i);
             }
         });
@@ -368,6 +369,10 @@ public class RequestStatusActivity extends BaseActivity implements IResponse, On
                 }
                 if(object.has("pincode")) {
                     pincode = object.getString("pincode");
+                }
+
+                if(object.has("engineCC")){
+                    strEngineCC = object.getString("engineCC");
                 }
 
                 String address = addressLine1 + ", " + addressLine2 + ", " + landmark + ", " + state + ", " + city + ", " + pincode;

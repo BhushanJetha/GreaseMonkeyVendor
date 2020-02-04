@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.Switch;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -22,6 +23,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.bottomnavigation.BottomNavigationItemView;
+import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
+import com.greasemonkey.vendor.DashobardActivity;
 import com.greasemonkey.vendor.R;
 import com.greasemonkey.vendor.common.Constant;
 import com.greasemonkey.vendor.request_detail.RequestDetailActivity;
@@ -39,6 +43,7 @@ import java.util.Map;
 
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -50,6 +55,7 @@ public class HomeFragment extends Fragment {
     private SwitchCompat sShopTodaysStatus, sPickUpDropStatus, sShopTommarowsStatus;
     private LinearLayout llTomorowsStatus;
     private UserPrefManager userPrefManager;
+    private int notificationCount = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -87,6 +93,13 @@ public class HomeFragment extends Fragment {
         }else {
             sShopTommarowsStatus.setChecked(false);
         }
+
+
+       /* TextView tv = view.findViewById(R.id.notificationsBadgeTextView);
+        tv.setText("22");*/
+
+
+
 
         getRequests();
         onClick();
@@ -202,6 +215,9 @@ public class HomeFragment extends Fragment {
                                         String orderStatus = jsonObject1.getString("orderStatus");
 
 
+                                        if(orderStatus.equals("Fresh Order")){
+                                            notificationCount++;
+                                        }
                                         todaysOrdersList.add(new ServiceRequestModel(orderId,userId,serviceType,pickupAndDrop,"-",orderDate,orderTime,userName,orderStatus,gmOrderId));
                                     }
 
@@ -210,6 +226,8 @@ public class HomeFragment extends Fragment {
                                         mRecyclerView.setVisibility(View.VISIBLE);
                                         mAdapter = new ServiceRequestAdapter(todaysOrdersList);
                                         mRecyclerView.setAdapter(mAdapter);
+
+                                        ((DashobardActivity) getActivity()).setCount(notificationCount);
                                         LinearLayoutManager llm = new LinearLayoutManager(getActivity());
                                         mRecyclerView.setLayoutManager(llm);
                                     }

@@ -31,6 +31,7 @@ public class GenerateBillActivity extends BaseActivity implements IResponse{
     private String strPartName, strPartAmount, strLabourCharges = "",strEsitimateBill = "";
     private CardView cvBill;
     private String orderId = "", strGmOrderId = "";
+    float gstAmount = 0, totalamount = 0;
 
 
     @Override
@@ -64,6 +65,15 @@ public class GenerateBillActivity extends BaseActivity implements IResponse{
         tvOrderId.setText(strGmOrderId);
         tvEstimateAmount.setText(strEsitimateBill);
 
+
+        /*gstAmount = ((Integer.parseInt(strEsitimateBill) * 18)/100);
+        Log.d("Gst Amount-->",String.valueOf(gstAmount));
+        if(gstAmount==0){
+            tvGstAmount.setText("0");
+        }else {
+            tvGstAmount.setText(String.valueOf(gstAmount));
+        }
+*/
     }
 
     private void onClick(){
@@ -154,12 +164,9 @@ public class GenerateBillActivity extends BaseActivity implements IResponse{
                 strLabourCharges = String.valueOf(laboutAmount);
                 strPartAmount = String.valueOf(partCharges);
 
-                if(!strEsitimateBill.isEmpty()){
-                    int estimateAmount = Integer.parseInt(strEsitimateBill);
-                    totalamount = partCharges + laboutAmount + estimateAmount;
-                }
 
-                gstAmount = ((laboutAmount * 18)/100);
+
+                gstAmount = (((laboutAmount+Integer.parseInt(strEsitimateBill)) * 18)/100);
 
                 if(laboutAmount==0){
                     tvLabourCharges.setText("0");
@@ -177,6 +184,11 @@ public class GenerateBillActivity extends BaseActivity implements IResponse{
                     tvGstAmount.setText("0");
                 }else {
                     tvGstAmount.setText(String.valueOf(gstAmount));
+                }
+
+                if(!strEsitimateBill.isEmpty()){
+                    int estimateAmount = Integer.parseInt(strEsitimateBill);
+                    totalamount = partCharges + laboutAmount + estimateAmount + gstAmount;
                 }
 
                 tvTotalAmount.setText(String.valueOf(totalamount));

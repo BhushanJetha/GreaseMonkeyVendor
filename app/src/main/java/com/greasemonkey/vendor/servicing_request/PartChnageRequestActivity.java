@@ -32,7 +32,7 @@ public class PartChnageRequestActivity extends BaseActivity implements IResponse
     private Button sendRequest;
     private ArrayList<LabourCharges> labourChargesList;
     private String orderId = "", strUserId = "", strGmOrderId = "";
-    private String strPartName, strPartAmount, strLabourCharges;
+    private String strPartName, strPartAmount, strLabourCharges, strEngineCC;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +51,7 @@ public class PartChnageRequestActivity extends BaseActivity implements IResponse
 
     private void init(){
         strUserId = getIntent().getStringExtra("UserId");
+        strEngineCC = getIntent().getStringExtra("EngigneCC");
 
         etPartsName = findViewById(R.id.etBikePartName);
         etPartsPrice = findViewById(R.id.etBikePartCharges);
@@ -69,12 +70,23 @@ public class PartChnageRequestActivity extends BaseActivity implements IResponse
         {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
             {
-               // String selectedItem = parent.getItemAtPosition(position).toString();
+                // String selectedItem = parent.getItemAtPosition(position).toString();
 
                 LabourCharges lb = labourChargesList.get(position);
-                strLabourCharges = lb.bikecc1;
-
-            } // to close the onItemSelected
+                if(strEngineCC.equals("80cc to 135cc")){
+                    strLabourCharges = lb.bikecc1;
+                } else if(strEngineCC.equals("136cc to 180cc")){
+                    strLabourCharges = lb.bikecc2;
+                } else if(strEngineCC.equals("181cc to 300cc")){
+                    strLabourCharges = lb.bikecc3;
+                } else if(strEngineCC.equals("301cc to 500cc")){
+                    strLabourCharges = lb.bikecc4;
+                } else if(strEngineCC.equals("KTM")){
+                    strLabourCharges = lb.bikecc5;
+                } else {
+                    strLabourCharges = lb.bikecc1;
+                }
+            }   // to close the onItemSelected
             public void onNothingSelected(AdapterView<?> parent)
             {
 

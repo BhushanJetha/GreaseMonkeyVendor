@@ -36,7 +36,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
         try{
            // meuItemViewHolder.tvEstimateAmount.setText(notificationList.get(i).getServiceType());
-            meuItemViewHolder.tvServiceType.setText("Rs. "+notificationList.get(i).getServiceType());
+            meuItemViewHolder.tvServiceType.setText(notificationList.get(i).getServiceType());
             meuItemViewHolder.tvStatus.setText(notificationList.get(i).getOrderStatus());
             meuItemViewHolder.tvDate.setText(notificationList.get(i).getOrderDate());
         }catch (Exception e){

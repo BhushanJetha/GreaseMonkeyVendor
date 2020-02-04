@@ -2,8 +2,13 @@ package com.greasemonkey.vendor;
 
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
+import com.google.android.material.bottomnavigation.BottomNavigationItemView;
+import com.google.android.material.bottomnavigation.BottomNavigationMenuView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.greasemonkey.vendor.fragments.AccountFragment;
 import com.greasemonkey.vendor.fragments.HomeFragment;
@@ -20,7 +25,8 @@ import androidx.fragment.app.FragmentTransaction;
 public class DashobardActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
-
+    BottomNavigationView navigation;
+    TextView tv;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,8 +37,20 @@ public class DashobardActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("Home");
 
         loadFragment(new HomeFragment());
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+
+        BottomNavigationMenuView bottomNavigationMenuView =
+                (BottomNavigationMenuView) navigation.getChildAt(0);
+        View v = bottomNavigationMenuView.getChildAt(3);
+        BottomNavigationItemView itemView = (BottomNavigationItemView) v;
+
+        View badge = LayoutInflater.from(this)
+                .inflate(R.layout.component_notification_badge, bottomNavigationMenuView, false);
+        tv = badge.findViewById(R.id.notificationsBadgeTextView);
+        //tv.setText("22");
+        itemView.addView(badge);
 
     }
 
@@ -74,5 +92,9 @@ public class DashobardActivity extends AppCompatActivity {
         transaction.replace(R.id.frame_container, fragment);
         transaction.addToBackStack(null);
         transaction.commit();
+    }
+
+    public void setCount(int count){
+        tv.setText(String.valueOf(count));
     }
 }

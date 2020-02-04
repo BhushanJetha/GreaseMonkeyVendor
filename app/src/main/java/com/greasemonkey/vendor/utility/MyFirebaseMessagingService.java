@@ -20,14 +20,16 @@ import com.google.firebase.messaging.RemoteMessage;
 import com.greasemonkey.vendor.BuildConfig;
 import com.greasemonkey.vendor.DashobardActivity;
 import com.greasemonkey.vendor.R;
+
 import androidx.core.app.NotificationCompat;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
+
         if (remoteMessage.getNotification() != null) {
-            handleNotification(remoteMessage.getNotification().getTitle());
+            handleNotification("Fresh Request");
         }
     }
 

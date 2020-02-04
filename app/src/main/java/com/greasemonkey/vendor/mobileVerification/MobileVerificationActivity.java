@@ -92,7 +92,47 @@ public class MobileVerificationActivity extends BaseActivity implements IRespons
                 userPrefManager.setVendorId(jsonObject.getString("id"));
             }
 
-            if(jsonObject.has("message")){
+            String response = jsonObject.getString("message");
+
+            Log.d("Response ##-->",response);
+            if(response.equals("otp sent to your mobile number")){
+                Intent i = new Intent(MobileVerificationActivity.this, OTPVerificationActivity.class);
+                i.putExtra("mobile",strMobileNumber);
+                startActivity(i);
+            }else if(jsonObject.has("mobileStatus")){
+
+                String mobileStatus = jsonObject.getString("mobileStatus");
+                String personalDetail = jsonObject.getString("personalDetail");
+                String addressDetail = jsonObject.getString("addressDetail");
+                String providedManufacturer = jsonObject.getString("providedManufacturer");
+                String providedService = jsonObject.getString("providedService");
+
+                if (mobileStatus.equals("verified") && personalDetail.equals("true") && addressDetail.equals("true")
+                        && providedService.equals("true") && providedManufacturer.equals("true")) {
+                    Intent i = new Intent(MobileVerificationActivity.this, DashobardActivity.class);
+                    startActivity(i);
+                } else if (mobileStatus.equals("verified") && personalDetail.equals("true") && addressDetail.equals("true")
+                        && providedService.equals("true") && providedManufacturer.equals("false")) {
+                    Intent i = new Intent(MobileVerificationActivity.this, BikeListActivity.class);
+                    startActivity(i);
+                } else if (mobileStatus.equals("verified") && personalDetail.equals("true") && addressDetail.equals("true")
+                        && providedService.equals("false") && providedManufacturer.equals("false")) {
+                    Intent i = new Intent(MobileVerificationActivity.this, ServiceDetailActivity.class);
+                    startActivity(i);
+                } else if (mobileStatus.equals("verified") && personalDetail.equals("true") && addressDetail.equals("false")
+                        && providedService.equals("false") && providedManufacturer.equals("false")) {
+                    Intent i = new Intent(MobileVerificationActivity.this, VendorLocationActivity.class);
+                    startActivity(i);
+                } else if (mobileStatus.equals("verified") && personalDetail.equals("false") && addressDetail.equals("false")
+                        && providedService.equals("false") && providedManufacturer.equals("false")) {
+                    Intent i = new Intent(MobileVerificationActivity.this, RegistrationActivity.class);
+                    i.putExtra("mobile", strMobileNumber);
+                    startActivity(i);
+                }
+            }
+
+
+            /*if(jsonObject.has("message")){
                 String response = jsonObject.getString("message");
                 Log.d("Response ##-->",response);
                 if(response.equals("otp sent to your mobile number")){
@@ -103,11 +143,7 @@ public class MobileVerificationActivity extends BaseActivity implements IRespons
                     Toast.makeText(getApplicationContext(),"Looks like this mobile number is already registered !", Toast.LENGTH_LONG).show();
                 }
             } else if(jsonObject.has("mobileStatus")) {
-                String mobileStatus = jsonObject.getString("mobileStatus");
-                String personalDetail = jsonObject.getString("personalDetail");
-                String addressDetail = jsonObject.getString("addressDetail");
-                String providedManufacturer = jsonObject.getString("providedManufacturer");
-                String providedService = jsonObject.getString("providedService");
+
 
                 Log.d("p Detail-->",personalDetail);
                 Log.d("addressDetail-->",addressDetail);
@@ -135,8 +171,8 @@ public class MobileVerificationActivity extends BaseActivity implements IRespons
                     Intent i = new Intent(MobileVerificationActivity.this, RegistrationActivity.class);
                     i.putExtra("mobile",strMobileNumber);
                     startActivity(i);
-                }
-            }
+                }*/
+
         }catch (JSONException e){
             e.printStackTrace();
         }
