@@ -51,7 +51,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="1px"
                         android:layout_marginTop="10dp"
-                        android:background="#efefef"/>
+                        android:background="#e0e0e0"/>
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -81,33 +81,7 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_weight="1"
-                            android:layout_height="wrap_content"
-                            android:gravity="left"
-                            android:text="Estimate Amount: "
-                            android:textSize="15sp"
-                            android:textColor="#000"/>
-
-                        <TextView
-                            android:id="@+id/tvEstimateBill"
-                            android:layout_width="0dp"
-                            android:layout_weight="1"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="left"
-                            android:text="-"
-                            android:layout_marginLeft="10dp"
-                            android:textSize="15sp"
-                            android:textColor="#000"/>
-
-                    </LinearLayout>
-
-                    <LinearLayout
+                        android:id="@+id/llLabourCharges"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="horizontal">
@@ -135,6 +109,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/llBikePartsLabourCharges"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="horizontal">
@@ -144,12 +119,187 @@
                             android:layout_weight="1"
                             android:layout_height="wrap_content"
                             android:gravity="left"
-                            android:text="Bike Part Charges: "
+                            android:text="Parts Labour Charges: "
+                            android:textSize="15sp"
+                            android:textColor="#000"/>
+
+                        <TextView
+                            android:id="@+id/tvPartsLabourCharges"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="left"
+                            android:text="-"
+                            android:layout_marginLeft="10dp"
+                            android:textSize="15sp"
+                            android:textColor="#000"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/llPartsCharges"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:gravity="left"
+                            android:text="Bike Parts Charges: "
                             android:textSize="15sp"
                             android:textColor="#000"/>
 
                         <TextView
                             android:id="@+id/tvBikePartCharges"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="left"
+                            android:text="-"
+                            android:layout_marginLeft="10dp"
+                            android:textSize="15sp"
+                            android:textColor="#000"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/llEngineOilCharges"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:gravity="left"
+                            android:text="Engine Oil: "
+                            android:textSize="15sp"
+                            android:textColor="#000"/>
+
+                        <TextView
+                            android:id="@+id/tvEngineOilCharges"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="left"
+                            android:text="-"
+                            android:layout_marginLeft="10dp"
+                            android:textSize="15sp"
+                            android:textColor="#000"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/llWashing"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:gravity="left"
+                            android:text="Washing: "
+                            android:textSize="15sp"
+                            android:textColor="#000"/>
+
+                        <TextView
+                            android:id="@+id/tvWashing"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="left"
+                            android:text="-"
+                            android:layout_marginLeft="10dp"
+                            android:textSize="15sp"
+                            android:textColor="#000"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/llPickUpDropCharges"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:gravity="left"
+                            android:text="Pick up - Drop: "
+                            android:textSize="15sp"
+                            android:textColor="#000"/>
+
+                        <TextView
+                            android:id="@+id/tvPickUpDropCharges"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="left"
+                            android:text="-"
+                            android:layout_marginLeft="10dp"
+                            android:textSize="15sp"
+                            android:textColor="#000"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/llOtherCharges"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:gravity="left"
+                            android:text="Other Charges: "
+                            android:textSize="15sp"
+                            android:textColor="#000"/>
+
+                        <TextView
+                            android:id="@+id/tvOtherCharges"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="left"
+                            android:text="-"
+                            android:layout_marginLeft="10dp"
+                            android:textSize="15sp"
+                            android:textColor="#000"/>
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1px"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:background="#e0e0e0"/>
+
+                    <LinearLayout
+                        android:id="@+id/llSubTotal"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:layout_height="wrap_content"
+                            android:gravity="left"
+                            android:text="Sub Total: "
+                            android:textSize="15sp"
+                            android:textColor="#000"/>
+
+                        <TextView
+                            android:id="@+id/tvSubTotal"
                             android:layout_width="0dp"
                             android:layout_weight="1"
                             android:layout_height="wrap_content"
@@ -192,11 +342,12 @@
                         android:layout_width="match_parent"
                         android:layout_height="1px"
                         android:layout_marginTop="10dp"
-                        android:background="#efefef"/>
+                        android:background="#e0e0e0"/>
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_marginTop="10dp"
                         android:orientation="horizontal">
 
                         <TextView

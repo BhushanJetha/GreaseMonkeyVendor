@@ -32,16 +32,21 @@ public class SplashActivity extends AppCompatActivity {
             public void run() {
 
                 if(userPrefManager.getLoginStatus().equals("LoginSuccess")){
-                    Intent i = new Intent(SplashActivity.this, DashobardActivity.class);
-                    startActivity(i);
-                    //finish();
+                    if(userPrefManager.getVendorVerificationStatus().equals("active")){
+                        Intent i = new Intent(SplashActivity.this, DashobardActivity.class);
+                        startActivity(i);
+                        finish();
+                    }else {
+                        Intent i = new Intent(SplashActivity.this, HomeActivity.class);
+                        startActivity(i);
+                        finish();
+                    }
+
                 } else {
                     Intent i = new Intent(SplashActivity.this,   LoginActivity.class);
                     startActivity(i);
+                    finish();
                 }
-
-
-                // close this activity
                 finish();
             }
         }, SPLASH_TIME_OUT);

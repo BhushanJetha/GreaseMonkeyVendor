@@ -379,7 +379,7 @@ public class RequestStatusActivity extends BaseActivity implements IResponse, On
                 String dateTime = pickupDate + " " +  pickupTime;
 
 
-                tvOrderId.setText(orderId);
+                tvOrderId.setText(strGMOrderId);
                 tvRegistrationNumber.setText(vehicleRegisterNo);
                 tvUserName.setText(username);
                 tvMobileNumber.setText(mobile);

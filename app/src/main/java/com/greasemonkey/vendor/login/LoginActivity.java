@@ -39,7 +39,9 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.greasemonkey.vendor.DashobardActivity;
+import com.greasemonkey.vendor.HomeActivity;
 import com.greasemonkey.vendor.R;
+import com.greasemonkey.vendor.SplashActivity;
 import com.greasemonkey.vendor.common.Constant;
 import com.greasemonkey.vendor.comunication.CommunicationChanel;
 import com.greasemonkey.vendor.comunication.IResponse;
@@ -315,9 +317,16 @@ public class LoginActivity extends AppCompatActivity implements IResponse,Google
                             userPrefManager.setPickupDropStatus(pickUpDropStatus);
                             userPrefManager.setTommarowStatus(tommarows_status);
                             userPrefManager.setLoginStatus("LoginSuccess");
-                            Intent i = new Intent(LoginActivity.this, DashobardActivity.class);
-                            startActivity(i);
-                            finish();
+
+                            if(userPrefManager.getVendorVerificationStatus().equals("active")){
+                                Intent i = new Intent(LoginActivity.this, DashobardActivity.class);
+                                startActivity(i);
+                                finish();
+                            }else {
+                                Intent i = new Intent(LoginActivity.this, HomeActivity.class);
+                                startActivity(i);
+                                finish();
+                            }
                         }
                     }
                 } else if(jsonObject.has("personalDetail")){

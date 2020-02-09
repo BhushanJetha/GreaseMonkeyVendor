@@ -1,16 +1,25 @@
 package com.greasemonkey.vendor;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+
+import com.greasemonkey.vendor.common.Constant;
+import com.greasemonkey.vendor.comunication.CommunicationChanel;
+import com.greasemonkey.vendor.comunication.IResponse;
+import com.greasemonkey.vendor.garage_detail.GarageDetailActivity;
+import com.greasemonkey.vendor.login.LoginActivity;
+import com.greasemonkey.vendor.utility.UserPrefManager;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity implements IResponse {
 
-    /*ArrayList<RequestModel> allRequests;
-    private RecyclerView mRecyclerView;
-    private RequestListAdapter mAdapter;*/
-
+    private UserPrefManager userPrefManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,43 +27,8 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
         setToolbar();
-
-       /* allRequests=new ArrayList<>();
-        requestList();
-        mRecyclerView = (RecyclerView) findViewById(R.id.rvServiceRequest);
-
-        if(allRequests.size()>0){
-
-            mRecyclerView.setVisibility(View.VISIBLE);
-            mAdapter = new RequestListAdapter(allRequests);
-            mRecyclerView.setAdapter(mAdapter);
-            LinearLayoutManager llm = new LinearLayoutManager(getApplicationContext());
-            mRecyclerView.setLayoutManager(llm);
-        }
-
-        mRecyclerView.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), mRecyclerView, new RecyclerTouchListener.ClickListener() {
-            @Override
-            public void onClick(View view, int position) {
-
-                RequestModel requests= allRequests.get(position);
-                String status = requests.getStatus();
-                if(status == "New Request"){
-                    Intent i=new Intent(HomeActivity.this,RequestDetailActivity.class);
-                    startActivity(i);
-                    finish();
-                }else  if(status == "WIP"){
-                    Intent i=new Intent(HomeActivity.this,RequestStatusActivity.class);
-                    startActivity(i);
-                    finish();
-                }
-
-            }
-
-            @Override
-            public void onLongClick(View view, int position) {
-
-            }
-        }));*/
+        userPrefManager= new UserPrefManager(this);
+        getVendorDetail();
     }
 
     public void setToolbar(){
@@ -62,21 +36,43 @@ public class HomeActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Grease Monkey");
 
-       /* if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-        }*/
     }
 
-    private void requestList(){
+    private void getVendorDetail(){
+        try {
+            JSONObject jsonObject=new JSONObject();
+            jsonObject.put("vendorId",userPrefManager.getVendorId());
 
-/*
-        allRequests.add(new RequestModel("Bhushan Jetha","01 SEP", "One Time Service","GOLD","New Request"));
-        allRequests.add(new RequestModel("Chetan Jetha","01 SEP", "One Time Service","GOLD","WIP"));
-        allRequests.add(new RequestModel("Viraj Jetha","01 SEP", "One Time Service","GOLd","New Request"));
-        allRequests.add(new RequestModel("Vishal Jetha","01 SEP", "One Time Service","GOLD","New Request"));
-        allRequests.add(new RequestModel("Pavan Jetha","01 SEP", "One Time Service","GOLD","New Request"));*/
+            Log.d("Request -->",jsonObject.toString());
+            CommunicationChanel communicationChanel =new CommunicationChanel();
+            communicationChanel.communicateWithServer(HomeActivity.this,
+                    Constant.POST, Constant.getVendorDetail,jsonObject,"ProfileDetail");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
+    @Override
+    public void onRequestComplete(JSONObject jsonObject, String entity) {
+        Log.d("vendor List-->",jsonObject.toString());
+        try {
+            if(entity.equals("ProfileDetail")) {
+                String response = jsonObject.getString("vendor");
+                Log.d("Response ##-->Co", response);
 
+                JSONObject object = new JSONObject(response);
+
+                String verification = object.getString("verification");
+                userPrefManager.setVendorVerificationStatus(verification);
+
+                if(verification.equals("active")){
+                    Intent i = new Intent(HomeActivity.this, DashobardActivity.class);
+                    startActivity(i);
+                    finish();
+                }
+            }
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
+    }
 }
