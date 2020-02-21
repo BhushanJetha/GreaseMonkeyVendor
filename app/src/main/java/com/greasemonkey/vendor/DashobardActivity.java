@@ -49,7 +49,6 @@ public class DashobardActivity extends AppCompatActivity {
         View badge = LayoutInflater.from(this)
                 .inflate(R.layout.component_notification_badge, bottomNavigationMenuView, false);
         tv = badge.findViewById(R.id.notificationsBadgeTextView);
-        //tv.setText("22");
         itemView.addView(badge);
 
     }

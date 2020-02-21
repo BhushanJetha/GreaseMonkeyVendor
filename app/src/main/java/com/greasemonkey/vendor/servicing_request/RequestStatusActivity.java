@@ -16,6 +16,7 @@ import android.text.util.Linkify;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -51,6 +52,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -69,7 +73,7 @@ public class RequestStatusActivity extends BaseActivity implements IResponse, On
 
     private Spinner OrderSpinner;
     private String orderId = "", strOrderStatus = "", strEstimateBill, strUserId = "", strGMOrderId = "", strEngineCC;
-    private LinearLayout llOrderStatus;
+    private LinearLayout llOrderStatus, llAddress;
     private ScrollView mScrollView;
 
     //Google Map
@@ -83,6 +87,9 @@ public class RequestStatusActivity extends BaseActivity implements IResponse, On
     private String finalLatitude, finalLongitude;
     private LatLng latLng;
     private UserPrefManager userPrefManager;
+
+   // ArrayList<String> arrOrderStatus = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,6 +132,7 @@ public class RequestStatusActivity extends BaseActivity implements IResponse, On
         OrderSpinner = findViewById(R.id.orderStatus);
         btnAddress = findViewById(R.id.btnAddress);
         tvOrderStatus = findViewById(R.id.tvOrderStatus);
+        llAddress = findViewById(R.id.llAddress);
 
         llOrderStatus = findViewById(R.id.llOrderStatus);
         tvGMSupport = findViewById(R.id.tvGMSupport);
@@ -134,6 +142,18 @@ public class RequestStatusActivity extends BaseActivity implements IResponse, On
             tvMobileNumber.setMovementMethod(LinkMovementMethod.getInstance());
         }
 
+       /* arrOrderStatus.add("Ready for Pickup");
+        arrOrderStatus.add("Bike Picked");
+        arrOrderStatus.add("Work in Progress");
+        arrOrderStatus.add("Completed");
+        arrOrderStatus.add("Pending Drop");
+        arrOrderStatus.add("Delivered");*/
+
+        /*ArrayAdapter<String> adapter =
+                new ArrayAdapter<String>(getApplicationContext(),  android.R.layout.simple_spinner_dropdown_item, arrOrderStatus);
+        adapter.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item);
+
+        OrderSpinner.setAdapter(adapter);*/
     }
 
     private void onClick() {
@@ -193,6 +213,7 @@ public class RequestStatusActivity extends BaseActivity implements IResponse, On
                 i.putExtra("GmOrderId",strUserId);
                 i.putExtra("EngigneCC", strEngineCC);
                 startActivity(i);
+                finish();
             }
         });
 
@@ -308,20 +329,36 @@ public class RequestStatusActivity extends BaseActivity implements IResponse, On
 
                 if(!serviceDetail.isEmpty()){
                     JSONObject serviceDetailJson = new JSONObject(serviceDetail);
-
+                    String is_oil_type ="", is_oil_brand ="", is_wash ="", is_pickup ="";
+                    String strServiceDetail ="";
                     if(serviceDetailJson.has("is_oil_change")) {
                         String is_oil_change = serviceDetailJson.getString("is_oil_change");
-                        String is_oil_type = serviceDetailJson.getString("is_oil_type");
-                        String is_oil_brand = serviceDetailJson.getString("is_oil_brand");
-                        String is_wash = serviceDetailJson.getString("is_wash");
-                        String is_pickup = serviceDetailJson.getString("is_pickup");
+                        strServiceDetail += "Oil Change - " + is_oil_change + "\n";
+                        if(serviceDetailJson.has("is_oil_type")){
+                            is_oil_type = serviceDetailJson.getString("is_oil_type");
+                            strServiceDetail += "Oil Type - " + is_oil_type + "\n";
+                        }
 
-                        String strServiceDetail = "Oil Change - " + is_oil_change + "\n" + "Oil Type - " + is_oil_type + "\n" +
-                                "Oil Brand - " + is_oil_brand + "\n" + "Bike Wash - " + is_wash;
+                        if(serviceDetailJson.has("is_oil_brand")){
+                            is_oil_brand = serviceDetailJson.getString("is_oil_brand");
+                            strServiceDetail += "Oil Brand - " + is_oil_brand + "\n";
+                        }
+                        if(serviceDetailJson.has("is_wash")){
+                            is_wash = serviceDetailJson.getString("is_wash");
+                            strServiceDetail += "Bike Wash - " + is_wash + "\n";
+                        }
+
+                        if(serviceDetailJson.has("is_pickup")){
+                            is_pickup = serviceDetailJson.getString("is_pickup");
+                            strServiceDetail += "Pickup - " + is_pickup;
+                        }
+
+
                         tvComment.setText(strServiceDetail);
                     }
 
                 }
+
                 String additionalInfo = "", state ="", city="",addressLine1="", addressLine2="", landmark="", pincode="",
                         username = "", pickupDate ="",pickupTime="",manufacture="", modelName="", mobile="",
                         vehicleRegisterNo="";
@@ -404,6 +441,8 @@ public class RequestStatusActivity extends BaseActivity implements IResponse, On
 
                 if(addressLine1.isEmpty()){
                     tvAddress.setText("-");
+                    llAddress.setVisibility(View.GONE);
+                    btnAddress.setVisibility(View.GONE);
                 }else {
                     tvAddress.setText(address);
                     latLng = ConvertAddressToLatLong.getLocationFromAddress(getApplicationContext(),address);
@@ -415,11 +454,17 @@ public class RequestStatusActivity extends BaseActivity implements IResponse, On
                 }
 
                 Log.d("Order Status-->",strOrderStatus);
-                if(strOrderStatus.equals("Work in Progress")){
+                if(strOrderStatus.equals("Work in Progress") || strOrderStatus.equals("Part Change Requested")
+                        || strOrderStatus.equals("Part Change Accepted") || strOrderStatus.equals("Part Change Rejected")){
                     btnSendRequest.setVisibility(View.VISIBLE);
                 }else if(strOrderStatus.equals("Completed")){
                     llOrderStatus.setVisibility(View.GONE);
                     btnSubmit.setText("Generate Bill");
+                }
+
+                if(strOrderStatus.equals("Part Change Requested")){
+                    llOrderStatus.setVisibility(View.GONE);
+                    btnSubmit.setVisibility(View.GONE);
                 }
 
             }else if (entity.equals("updateOrderStatus")){

@@ -52,6 +52,7 @@ public class PartChnageRequestActivity extends BaseActivity implements IResponse
     private void init(){
         strUserId = getIntent().getStringExtra("UserId");
         strEngineCC = getIntent().getStringExtra("EngigneCC");
+        Log.d("Engine CC-->", strEngineCC);
 
         etPartsName = findViewById(R.id.etBikePartName);
         etPartsPrice = findViewById(R.id.etBikePartCharges);
@@ -101,19 +102,23 @@ public class PartChnageRequestActivity extends BaseActivity implements IResponse
                     strPartName = etPartsName.getText().toString();
                     strPartAmount = etPartsPrice.getText().toString();
 
-                    JSONObject jsonObject=new JSONObject();
+                    if(!strPartName.isEmpty() && !strPartAmount.isEmpty()){
+                        JSONObject jsonObject=new JSONObject();
 
-                    jsonObject.put("userId",strUserId);
-                    jsonObject.put("orderId",orderId);
-                    jsonObject.put("partName",strPartName);
-                    jsonObject.put("partPrice",strPartAmount);
-                    jsonObject.put("labourCharges",strLabourCharges);
-                    jsonObject.put("status","Requested");
+                        jsonObject.put("userId",strUserId);
+                        jsonObject.put("orderId",orderId);
+                        jsonObject.put("partName",strPartName);
+                        jsonObject.put("partPrice",strPartAmount);
+                        jsonObject.put("labourCharges",strLabourCharges);
+                        jsonObject.put("status","Requested");
 
-                    Log.d("Json-->",jsonObject.toString());
-                    CommunicationChanel communicationChanel =new CommunicationChanel();
-                    communicationChanel.communicateWithServer(PartChnageRequestActivity.this,
-                            Constant.POST, Constant.sndPartChangeRequest,jsonObject,"sendPartChangeRequest");
+                        Log.d("Json-->",jsonObject.toString());
+                        CommunicationChanel communicationChanel =new CommunicationChanel();
+                        communicationChanel.communicateWithServer(PartChnageRequestActivity.this,
+                                Constant.POST, Constant.sndPartChangeRequest,jsonObject,"sendPartChangeRequest");
+                    }else {
+                        Toast.makeText(getApplicationContext(),"Please enter part name & part Price first!",Toast.LENGTH_LONG).show();
+                    }
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -162,7 +167,7 @@ public class PartChnageRequestActivity extends BaseActivity implements IResponse
                 Log.d("Response ##-->", response);
                 if(response.equals("Bike part details added successfully.")){
                     Toast.makeText(getApplicationContext(),"Bike part details added successfully",Toast.LENGTH_LONG).show();
-                    Intent i=new Intent(this,PartChnageRequestActivity.class);
+                    Intent i=new Intent(this,RequestStatusActivity.class);
                     i.putExtra("OrderId",orderId);
                     i.putExtra("UserId",strUserId);
                     i.putExtra("GMOrderId",strGmOrderId);

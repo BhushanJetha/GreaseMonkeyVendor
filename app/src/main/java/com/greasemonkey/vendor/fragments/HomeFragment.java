@@ -99,8 +99,6 @@ public class HomeFragment extends Fragment {
         tv.setText("22");*/
 
 
-
-
         getRequests();
         onClick();
 
@@ -127,7 +125,6 @@ public class HomeFragment extends Fragment {
             @Override
             public void onLongClick(View view, int position) {}
         }));
-
 
         return view;
     }
@@ -196,6 +193,7 @@ public class HomeFragment extends Fragment {
 
                                 Log.d("Server --->", "response::" + response.toString());
                                 progressRing.dismiss();
+                                notificationCount = 0;
 
                                 try {
                                     String strResponse = response.getString("data");
@@ -294,13 +292,15 @@ public class HomeFragment extends Fragment {
 
                 final JSONObject jsonObject=new JSONObject();
                 jsonObject.put("vendorId",userPrefManager.getVendorId());
-                jsonObject.put("onlineStatus",status);
                 if(api.equals(Constant.setPickUpDropStatus)){
-                    jsonObject.put("onlineStatus",status);
+                    jsonObject.put("pickupDropStatus",status);
+                   // jsonObject.put("onlineStatus",status);
                 }else if(api.equals(Constant.setShopTommarowsStatus)){
                     jsonObject.put("status",status);
                 }
 
+                Log.d("Request-->", jsonObject.toString());
+                Log.d("API -->", api);
                 RequestQueue queue = Volley.newRequestQueue(getActivity());
                 JsonObjectRequest request = new JsonObjectRequest(Constant.POST, api, jsonObject,
 

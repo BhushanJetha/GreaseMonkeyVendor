@@ -396,6 +396,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:id="@+id/llAddress"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingLeft="10dp"
@@ -423,6 +424,7 @@
                             android:layout_height="wrap_content"
                             android:text="Comment"
                             android:textColor="#bdbdbd"
+                            android:visibility="gone"
                             android:layout_marginTop="10dp"
                             android:textSize="12sp"/>
 
@@ -431,6 +433,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text=""
+                            android:visibility="gone"
                             android:textColor="#000"
                             android:textSize="12sp"/>
                     </LinearLayout>
@@ -465,6 +468,8 @@
                         android:textColor="@color/whiteText"
                         android:layout_marginLeft="20dp"
                         android:layout_marginRight="20dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginBottom="10dp"
                         android:layout_gravity="center"
                         android:visibility="gone"
                         android:background="#45992b"
@@ -477,6 +482,7 @@
                         android:layout_marginTop="10dp"
                         android:layout_marginLeft="20dp"
                         android:layout_marginRight="20dp"
+                        android:layout_marginBottom="10dp"
                         android:textColor="@color/whiteText"
                         android:layout_gravity="center"
                         android:background="#45992b"
@@ -487,7 +493,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textColor="@color/whiteText"
-                        android:layout_marginTop="10dp"
                         android:layout_marginLeft="20dp"
                         android:layout_marginRight="20dp"
                         android:layout_marginBottom="10dp"

@@ -14,6 +14,6 @@
         android:background="@drawable/notification_red_dot"
         android:gravity="center"
         android:textColor="@color/whiteText"
-        android:text="9+"
+        android:text=""
         android:textSize="9dp" />
 </FrameLayout>

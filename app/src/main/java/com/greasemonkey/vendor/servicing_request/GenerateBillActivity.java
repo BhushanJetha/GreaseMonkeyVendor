@@ -99,7 +99,7 @@ public class GenerateBillActivity extends BaseActivity implements IResponse{
                     jsonObject.put("bikePartsName",mypartsLabourCharges);
                     jsonObject.put("bikePartsCharges",mypartAmount);
                     jsonObject.put("gstAmount",fGstAmount);
-                    jsonObject.put("totalAmountPaid", totalAmountWithOffer);
+                    jsonObject.put("totalAmountPaid", totalAmountWithoutOffer);
 
                     Log.d("Json-->",jsonObject.toString());
                     CommunicationChanel communicationChanel =new CommunicationChanel();
@@ -153,6 +153,26 @@ public class GenerateBillActivity extends BaseActivity implements IResponse{
         }
     }
 
+    private void sendOrderStatus() {
+        try{
+            JSONObject jsonObject=new JSONObject();
+
+            jsonObject.put("orderId",orderId);
+            jsonObject.put("orderStatus","Bill Generated");
+
+            Log.d("Json-->",jsonObject.toString());
+            CommunicationChanel communicationChanel =new CommunicationChanel();
+            communicationChanel.communicateWithServer(GenerateBillActivity.this,
+                    Constant.POST, Constant.sendOrderStatus,jsonObject,"updateOrderStatus");
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+
     @Override
     public void onRequestComplete(JSONObject jsonObject, String entity) {
 
@@ -161,6 +181,13 @@ public class GenerateBillActivity extends BaseActivity implements IResponse{
                 Log.d("Order Detail-->",jsonObject.toString());
                 String response = jsonObject.getString("message");
                 Log.d("Response ##-->",response);
+
+                if(response.equals("Order updated successfully.")){
+                    sendOrderStatus();
+                }
+            }  if(entity.equals("updateOrderStatus")){
+                Log.d("Order Status-->",jsonObject.toString());
+                String response = jsonObject.getString("message");
 
                 if(response.equals("Order updated successfully.")){
                     Toast.makeText(getApplicationContext(),"Bill send to user successfully!!",Toast.LENGTH_LONG).show();
@@ -180,68 +207,91 @@ public class GenerateBillActivity extends BaseActivity implements IResponse{
                 String other_charges = billDetail.getString("other_charges");
                 String coupon_discount_amount = billDetail.getString("coupon_discount_amount");
                 String washing = billDetail.getString("washing");
+                String serviceType = billDetail.getString("serviceType");
+
+                String totalAmountPaid = billDetail.getString("totalAmountPaid");
+
+
 
                 int gstApplicableAmount = 0;
 
-                if(referalBalance != null && !referalBalance.isEmpty()){
+                if(referalBalance != null && !referalBalance.isEmpty()  && !referalBalance.equals("null")){
                     myreferalBalance = Integer.parseInt(referalBalance);
                 }else  {
                     myreferalBalance = 0;
                 }
 
-                if(labourCharges != null && !labourCharges.isEmpty()){
+                if(labourCharges != null && !labourCharges.isEmpty() && !labourCharges.equals("null")){
                     mylabourCharges = Integer.parseInt(labourCharges);
                 }else  {
                     mylabourCharges = 0;
                 }
 
-                if(engine_oil_price != null && !engine_oil_price.isEmpty() && !engine_oil_price.equals("0")){
+                if(engine_oil_price != null && !engine_oil_price.isEmpty() && !engine_oil_price.equals("0") && !engine_oil_price.equals("null")){
                     myengine_oil_price = Integer.parseInt(engine_oil_price);
                 }else  {
                     myengine_oil_price = 0;
                     llEngineOil.setVisibility(View.GONE);
                 }
 
-                if(pick_up_drop_price != null && !pick_up_drop_price.isEmpty() && !pick_up_drop_price.equals("0")){
+                if(pick_up_drop_price != null && !pick_up_drop_price.isEmpty() && !pick_up_drop_price.equals("0") && !pick_up_drop_price.equals("null")){
                     mypick_up_drop_price = Integer.parseInt(pick_up_drop_price);
                 }else  {
                     mypick_up_drop_price = 0;
                     llPickUpDrop.setVisibility(View.GONE);
                 }
 
-                if(other_charges != null && !other_charges.isEmpty() && !other_charges.equals("0")){
-                    myother_charges = Integer.parseInt(other_charges);
-                }else  {
-                    myother_charges = 0;
-                    llOtherCharges.setVisibility(View.GONE);
+                if(serviceType.equals("Fuel Delivery") || serviceType.equals("Towing Service")){
+                    if(!totalAmountPaid.isEmpty() && totalAmountPaid != null) {
+                        myother_charges = Integer.parseInt(totalAmountPaid);
+                    }
+                }else {
+                    if(other_charges != null && !other_charges.isEmpty() && !other_charges.equals("0") && !other_charges.equals("null")){
+                        myother_charges = Integer.parseInt(other_charges);
+                    }else  {
+                        myother_charges = 0;
+                        llOtherCharges.setVisibility(View.GONE);
+                    }
                 }
 
-                if(coupon_discount_amount != null && !coupon_discount_amount.isEmpty()){
+                if(coupon_discount_amount != null && !coupon_discount_amount.isEmpty() && !coupon_discount_amount.equals("null")){
                     mycoupon_discount_amount = Integer.parseInt(coupon_discount_amount);
                 }else  {
                     mycoupon_discount_amount = 0;
                 }
 
-                if(washing != null && !washing.isEmpty() && !washing.equals("0")){
+                if(washing != null && !washing.isEmpty() && !washing.equals("0") && !washing.equals("null")){
                     mywashing = Integer.parseInt(washing);
                 }else  {
                     mywashing = 0;
                     llWashing.setVisibility(View.GONE);
                 }
 
-                gstApplicableAmount = mylabourCharges + mypartsLabourCharges +
+                gstApplicableAmount = mylabourCharges + mypartsLabourCharges + mypick_up_drop_price +
                         mywashing + myother_charges;
 
                 Log.d("GST App Amount-->", String.valueOf(gstApplicableAmount));
-                fGstAmount = ((gstApplicableAmount * 18)/100);
+
+                if(serviceType.equals("Fuel Delivery")){
+                    fGstAmount = 18;
+                }
+                else {
+                    fGstAmount = ((gstApplicableAmount * 18)/100);
+                }
                 totalAmountWithoutOffer = mypartsLabourCharges + mypartAmount + mylabourCharges + myengine_oil_price + mypick_up_drop_price +
                         myother_charges + mywashing + fGstAmount;
 
 
-                totalAmountWithOffer = totalAmountWithoutOffer - mycoupon_discount_amount - myreferalBalance;
+                totalAmountWithOffer = totalAmountWithoutOffer; //- mycoupon_discount_amount - myreferalBalance;
 
                 int subTotal = mypartsLabourCharges + mypartAmount + mylabourCharges + myengine_oil_price + mypick_up_drop_price +
                         myother_charges + mywashing;
+
+                if(mylabourCharges!= 0){
+                    tvLabourCharges.setText(String.valueOf(mylabourCharges));
+                }else {
+                    llLabourCharges.setVisibility(View.GONE);
+                }
 
                 if(mypartsLabourCharges!= 0){
                     tvPartsLabourCharges.setText(String.valueOf(mypartsLabourCharges));
@@ -256,7 +306,7 @@ public class GenerateBillActivity extends BaseActivity implements IResponse{
                 }
 
                 mytotalAmountPaid = totalAmountWithoutOffer;
-                tvLabourCharges.setText(String.valueOf(mylabourCharges));
+
 
                 tvBikePartCharges.setText(String.valueOf(mypartAmount));
                 tvEngineOil.setText(String.valueOf(myengine_oil_price));
