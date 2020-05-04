@@ -14,6 +14,7 @@ import com.greasemonkey.vendor.R;
 import com.greasemonkey.vendor.common.Constant;
 import com.greasemonkey.vendor.comunication.CommunicationChanel;
 import com.greasemonkey.vendor.comunication.IResponse;
+import com.greasemonkey.vendor.login.LoginActivity;
 import com.greasemonkey.vendor.registration.RegistrationActivity;
 import com.greasemonkey.vendor.utility.UserPrefManager;
 import com.greasemonkey.vendor.vendor_detail.BikeListActivity;
@@ -109,7 +110,7 @@ public class MobileVerificationActivity extends BaseActivity implements IRespons
 
                 if (mobileStatus.equals("verified") && personalDetail.equals("true") && addressDetail.equals("true")
                         && providedService.equals("true") && providedManufacturer.equals("true")) {
-                    Intent i = new Intent(MobileVerificationActivity.this, DashobardActivity.class);
+                    Intent i = new Intent(MobileVerificationActivity.this, LoginActivity.class);
                     startActivity(i);
                 } else if (mobileStatus.equals("verified") && personalDetail.equals("true") && addressDetail.equals("true")
                         && providedService.equals("true") && providedManufacturer.equals("false")) {

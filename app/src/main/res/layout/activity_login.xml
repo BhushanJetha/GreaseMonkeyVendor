@@ -102,6 +102,8 @@
             android:layout_gravity="right"
             android:textColor="#000"
             android:text="Forgot Password ?"
+            android:textStyle="bold"
+            android:textSize="15sp"
             android:layout_marginRight="20dp"/>
 
         <Button

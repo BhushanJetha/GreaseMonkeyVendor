@@ -215,8 +215,17 @@ public class RequestDetailActivity extends BaseActivity implements IResponse {
                 tvMobileNumber.setText(mobile);
                 tvManufacturer.setText(manufacture);
                 tvModel.setText(modelName);
+
+                if(serviceType.equals("Roadside On Spot Repair")){
+                    tvAMC.setText( "Rs.100" );
+                }else if(serviceType.equals("Fuel Delivery")){
+                    tvAMC.setText( "Rs. 180" );
+                }else {
+                    tvAMC.setText( "Rs." + totalAmountPaid);
+                }
+
                 tvServivceType.setText(serviceType);
-                tvAMC.setText( "Rs." + totalAmountPaid);
+
                 tvPickupDrop.setText(pickupAndDrop);
                 tvPickUpDateTime.setText(dateTime);
                 tvComment.setText(additionalInfo);

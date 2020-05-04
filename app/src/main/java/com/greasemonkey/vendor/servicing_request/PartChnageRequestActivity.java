@@ -24,6 +24,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class PartChnageRequestActivity extends BaseActivity implements IResponse {
 
@@ -157,6 +159,13 @@ public class PartChnageRequestActivity extends BaseActivity implements IResponse
                     LabourCharges labourCharges = new LabourCharges(labourChargesId, serviceName, bikecc1, bikecc2, bikecc3, bikecc4, bikecc5);
                     labourChargesList.add(labourCharges);
                 }
+
+                Collections.sort(labourChargesList, new Comparator<LabourCharges>() {
+                    @Override
+                    public int compare(LabourCharges lhs, LabourCharges rhs) {
+                        return lhs.getServiceName().compareTo(rhs.getServiceName());
+                    }
+                });
 
                 ArrayAdapter<LabourCharges> adapter = new ArrayAdapter<LabourCharges> (getApplicationContext(),
                         android.R.layout.simple_spinner_dropdown_item, labourChargesList);

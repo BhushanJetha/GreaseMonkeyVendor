@@ -88,7 +88,7 @@ public class RequestStatusActivity extends BaseActivity implements IResponse, On
     private LatLng latLng;
     private UserPrefManager userPrefManager;
 
-   // ArrayList<String> arrOrderStatus = new ArrayList<>();
+   ArrayList<String> arrOrderStatus = new ArrayList<>();
 
 
     @Override
@@ -141,19 +141,6 @@ public class RequestStatusActivity extends BaseActivity implements IResponse, On
             Linkify.addLinks(tvMobileNumber, Patterns.PHONE, "tel:", Linkify.sPhoneNumberMatchFilter, Linkify.sPhoneNumberTransformFilter);
             tvMobileNumber.setMovementMethod(LinkMovementMethod.getInstance());
         }
-
-       /* arrOrderStatus.add("Ready for Pickup");
-        arrOrderStatus.add("Bike Picked");
-        arrOrderStatus.add("Work in Progress");
-        arrOrderStatus.add("Completed");
-        arrOrderStatus.add("Pending Drop");
-        arrOrderStatus.add("Delivered");*/
-
-        /*ArrayAdapter<String> adapter =
-                new ArrayAdapter<String>(getApplicationContext(),  android.R.layout.simple_spinner_dropdown_item, arrOrderStatus);
-        adapter.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item);
-
-        OrderSpinner.setAdapter(adapter);*/
     }
 
     private void onClick() {
@@ -353,7 +340,7 @@ public class RequestStatusActivity extends BaseActivity implements IResponse, On
                             strServiceDetail += "Pickup - " + is_pickup;
                         }
 
-
+                        tvComment.setVisibility(View.VISIBLE);
                         tvComment.setText(strServiceDetail);
                     }
 
@@ -386,6 +373,8 @@ public class RequestStatusActivity extends BaseActivity implements IResponse, On
                 if(object.has("pickupTime")) {
                     pickupTime = object.getString("pickupTime");
                 }
+
+
                 if(object.has("additionalInfo")) {
                     additionalInfo = object.getString("additionalInfo");
                 }
@@ -423,8 +412,22 @@ public class RequestStatusActivity extends BaseActivity implements IResponse, On
                 tvManufacturer.setText(manufacture);
                 tvModel.setText(modelName);
                 tvServivceType.setText(serviceType);
-                tvAMC.setText("RS."+strEstimateBill);
+
+                if(serviceType.equals("Roadside On Spot Repair")){
+                    tvAMC.setText( "Rs.100" );
+                }else if(serviceType.equals("Fuel Delivery")){
+                    tvAMC.setText( "Rs. 180" );
+                }else {
+                    tvAMC.setText( "Rs." + strEstimateBill);
+                }
                 tvPickupDrop.setText(pickupAndDrop);
+
+                if(pickupAndDrop.equalsIgnoreCase("Yes")){
+                    arrOrderStatus.add("Pending Drop");
+                    arrOrderStatus.add("Delivered");
+                }else {
+                    arrOrderStatus.add("Delivered");
+                }
                 tvPickUpDateTime.setText(dateTime);
                // tvComment.setText(additionalInfo);
 
@@ -441,7 +444,6 @@ public class RequestStatusActivity extends BaseActivity implements IResponse, On
 
                 if(addressLine1.isEmpty()){
                     tvAddress.setText("-");
-                    llAddress.setVisibility(View.GONE);
                     btnAddress.setVisibility(View.GONE);
                 }else {
                     tvAddress.setText(address);
@@ -462,10 +464,23 @@ public class RequestStatusActivity extends BaseActivity implements IResponse, On
                     btnSubmit.setText("Generate Bill");
                 }
 
-                if(strOrderStatus.equals("Part Change Requested")){
+                if(strOrderStatus.equals("Part Change Requested") || strOrderStatus.equals("Bill Generated")){
                     llOrderStatus.setVisibility(View.GONE);
                     btnSubmit.setVisibility(View.GONE);
                 }
+
+                if(strOrderStatus.equals("Bill Paid")){
+                    llOrderStatus.setVisibility(View.VISIBLE);
+                    btnSubmit.setVisibility(View.VISIBLE);
+
+                    ArrayAdapter<String> adapter =
+                            new ArrayAdapter<String>(getApplicationContext(),  android.R.layout.simple_spinner_dropdown_item, arrOrderStatus);
+                    adapter.setDropDownViewResource( android.R.layout.simple_spinner_dropdown_item);
+
+                    OrderSpinner.setAdapter(adapter);
+                }
+
+
 
             }else if (entity.equals("updateOrderStatus")){
                 Log.d("Order Status-->",jsonObject.toString());

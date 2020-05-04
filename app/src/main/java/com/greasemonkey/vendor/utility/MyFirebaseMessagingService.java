@@ -28,6 +28,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
 
+        Log.d("Message-->", remoteMessage.getNotification().toString());
+
         if (remoteMessage.getNotification() != null) {
             handleNotification("Fresh Request");
         }

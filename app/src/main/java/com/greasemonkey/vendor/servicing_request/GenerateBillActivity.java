@@ -104,7 +104,7 @@ public class GenerateBillActivity extends BaseActivity implements IResponse{
                     Log.d("Json-->",jsonObject.toString());
                     CommunicationChanel communicationChanel =new CommunicationChanel();
                     communicationChanel.communicateWithServer(GenerateBillActivity.this,
-                            Constant.POST, Constant.sendBikeServicingBill,jsonObject,"updateOrderStatus");
+                            Constant.POST, Constant.sendBikeServicingBill,jsonObject,"sendBill");
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -177,7 +177,7 @@ public class GenerateBillActivity extends BaseActivity implements IResponse{
     public void onRequestComplete(JSONObject jsonObject, String entity) {
 
         try {
-            if(entity.equals("updateOrderStatus")){
+            if(entity.equals("sendBill")){
                 Log.d("Order Detail-->",jsonObject.toString());
                 String response = jsonObject.getString("message");
                 Log.d("Response ##-->",response);
@@ -185,7 +185,7 @@ public class GenerateBillActivity extends BaseActivity implements IResponse{
                 if(response.equals("Order updated successfully.")){
                     sendOrderStatus();
                 }
-            }  if(entity.equals("updateOrderStatus")){
+            }else if(entity.equals("updateOrderStatus")){
                 Log.d("Order Status-->",jsonObject.toString());
                 String response = jsonObject.getString("message");
 
@@ -241,17 +241,11 @@ public class GenerateBillActivity extends BaseActivity implements IResponse{
                     llPickUpDrop.setVisibility(View.GONE);
                 }
 
-                if(serviceType.equals("Fuel Delivery") || serviceType.equals("Towing Service")){
-                    if(!totalAmountPaid.isEmpty() && totalAmountPaid != null) {
-                        myother_charges = Integer.parseInt(totalAmountPaid);
-                    }
-                }else {
-                    if(other_charges != null && !other_charges.isEmpty() && !other_charges.equals("0") && !other_charges.equals("null")){
-                        myother_charges = Integer.parseInt(other_charges);
-                    }else  {
-                        myother_charges = 0;
-                        llOtherCharges.setVisibility(View.GONE);
-                    }
+                if(other_charges != null && !other_charges.isEmpty() && !other_charges.equals("0") && !other_charges.equals("null")){
+                    myother_charges = Integer.parseInt(other_charges);
+                }else  {
+                    myother_charges = 0;
+                    llOtherCharges.setVisibility(View.GONE);
                 }
 
                 if(coupon_discount_amount != null && !coupon_discount_amount.isEmpty() && !coupon_discount_amount.equals("null")){

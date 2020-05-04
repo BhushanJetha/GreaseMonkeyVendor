@@ -113,7 +113,7 @@ public class HomeFragment extends Fragment {
                     i.putExtra("OrderId",requests.getOrderId());
                     i.putExtra("GMOrderId",requests.getGmOrderId());
                     startActivity(i);
-                }else {
+                }else if(!requests.getOrderStatus().equals("Declined")){
                     Intent i=new Intent(getContext(),RequestStatusActivity.class);
                     i.putExtra("OrderId",requests.getOrderId());
                     i.putExtra("UserId",requests.getUserId());
@@ -216,7 +216,10 @@ public class HomeFragment extends Fragment {
                                         if(orderStatus.equals("Fresh Order")){
                                             notificationCount++;
                                         }
-                                        todaysOrdersList.add(new ServiceRequestModel(orderId,userId,serviceType,pickupAndDrop,"-",orderDate,orderTime,userName,orderStatus,gmOrderId));
+
+                                        if(!orderStatus.equals("Declined")){
+                                            todaysOrdersList.add(new ServiceRequestModel(orderId,userId,serviceType,pickupAndDrop,"-",orderDate,orderTime,userName,orderStatus,gmOrderId));
+                                        }
                                     }
 
                                     if(todaysOrdersList.size()>0){
@@ -297,6 +300,8 @@ public class HomeFragment extends Fragment {
                    // jsonObject.put("onlineStatus",status);
                 }else if(api.equals(Constant.setShopTommarowsStatus)){
                     jsonObject.put("status",status);
+                }else if(api.equals(Constant.setShopOnlineStatus)){
+                    jsonObject.put("onlineStatus",status);
                 }
 
                 Log.d("Request-->", jsonObject.toString());

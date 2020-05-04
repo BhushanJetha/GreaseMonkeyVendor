@@ -250,7 +250,7 @@ public class AccountFragment extends Fragment {
                                         String orderStatus = jsonObject1.getString("orderStatus");
                                         String totalAmountPaid = jsonObject1.getString("totalAmountPaid");
 
-                                        if(orderStatus.equals("Completed")) {
+                                        if(orderStatus.equals("Delivered")) {
                                             notifications.add(new HistoryModel(orderId, userId, serviceType, pickupAndDrop,totalAmountPaid , orderDate, orderTime, "",orderStatus));
                                         }
                                     }
